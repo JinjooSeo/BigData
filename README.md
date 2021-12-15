@@ -1,8 +1,7 @@
 # Fundamentals of Big Data Analytics
-#####  <div style="text-align: right"> 22181418 물리학과 서진주 </div>
 ------------
 ## $\rm D^+$ selection with Boost Decision Tree (BDT)
-------------
+---
 
 ## Intorduction <br><br>
 
@@ -22,96 +21,168 @@
 
 ## Data sample <br><br>
 
-매력 쿼크를 포함한 중간자인 $\rm D^{+}$는 $\rm K^{-}$ 중간자와 두 개의 $\pi^{+}$중간자로 붕괴한다. 따라서 $\rm K^{-}, \pi^{+}, \pi^{+}$을 조합하면 $\rm D^{+}$를 재구성 할 수 있다.
+매력 쿼크를 포함한 중간자인 $\rm D^{+}$는 $\rm K^{-}$ 중간자와 두 개의 $\pi^{+}$중간자로 붕괴한다. 따라서 $\rm K^{-}, \pi^{+}, \pi^{+}$을 조합하면 $\rm D^{+}$를 재구성 할 수 있다. 하지만 3-prong decay이므로 세 개의 입자를 짝지을 경우의 수를 생각한다면 combinatorial background는 무수히 많다. 따라서 Machine learning을 통해 신호를 효율적으로 골라낼 수 있는 알고리즘을 찾는 것이 중요시된다.
 
 Machine learning에 사용되는 데이터는 충돌 에너지가 7 TeV 일 때, 2억 4천만개의 양성자-양성자 충돌에서 얻은 입자들이다.
 양성자-양성자 충돌 당 대략 5개의 입자들이 발생하므로 총 12억개의 입자들의 정보를 포함하고 있다. 입자들은 전자, 뮤온, 양성자, $\rm K^{-}, \pi^{+}$등이 있다. 7 TeV 양성자-양성자 충돌 시스템에서 생성되는 $\rm D^{+}$의 수는 대략 4천 7백개이다. 12억개의 입자들에서 대략 1만 4찬여개의 입자들을 선택해 $\rm D^{+}$을 재구성해야한다.
 
 data에서는 $\rm K^{-}, \pi^{+}$가 $\rm D^{+}$에서 붕괴되었는지 알 수 없기에 Monte Calro simulation을 통해 입자들이 어디서 붕괴했는지에 대한 정보를 가지고 있는 data sample이 필요하다.
 
-+ Data : 12 Bilions particles without mother particle labeling 
-+ MC sample : 4000 particles with mother proticle labeling
++ Data : 12 Bilions particles without mother particle labeling (data.root)
++ MC sample : 4000 particles with mother proticle labeling (prompt.root)
 
 
 ------------
 
 ## Package and Algorithm <br><br>
 
-### Q2. 
-#
-+ CPU : Main memory에서 전달되는 명령을 실행하는 부분. 프로그래밍 연산을 담당.
-+ Main memory : CPU에 전달할 명령을 저장하는 부분, 휘발성 메모리로 프로그램을 저장함.
-+ Second Memory : 운영체제 및 데이터를 저장하는 부분, 비휘발성 메모리로 데이터를 보존할 수 있음.
+
+$\rm D^{+}$ 재구성은 $\rm K^{-}, \pi^{+}, \pi^{+}$의 입자들이 $\rm D^{+}$에서 붕괴하였는지 아닌지에 따라 결정된다. 따라서 Binary classification이 요구된다. 
+
+본 분석에서 사용한 package는 [hipe4ml](https://github.com/hipe4ml/hipe4ml.git)로 고에너지 핵물리학에서 쓰이는 Machine learnign package이다. 여기서 쓰이는 알고리즘은 Boost Decision Tree로 [XGBoost](https://xgboost.readthedocs.io/en/stable/)를 이용한다. 
+
 
 ------------
 
+## Analysis <br><br>
 
+### 1. Preslection and prepare the model training
 
-### Q3. 
-#### 1. 
-#### 2. 
-#### 3. 
-#### 4. 
-#
-The reference code is in [HERE](https://github.com/JinjooSeo/PY4E/blob/main/week1/example/hydro_evo-TestRun.py)
-
-+ 1. Error
-    + SyntaxError
-     ```Python
-     from os import path
-     home = path.expanduser("Desktop")
-     working_path = path.join(home, "study/PY4E/week1/example")
-     data = loadtxt(momentum_anisotropy_eta_-0.5_0.5.dat,dtype=float32) #Invalid syntax
-     ```
-
-    + ValueError
-     ```Python
-     from os import path
-     home = path.expanduser("Desktop")
-     working_path = path.join(home, "study/PY4E/week1") 
-     data = loadtxt("momentum_anisotropy_eta_-0.5_0.5.dat",dtype=int) #The data type of file format and read format is not matched
-     ```
-
-------------
-
-### Q4. 
-#### hint:
-
-     birth = int(input(“생일이 지났습니까? 맞으면 0 아니면 -1 : “))
-#
-The macro is in [HERE](https://github.com/JinjooSeo/PY4E/blob/main/week1/M1_A4.py)
-
+분석에서 쓰이는 package들은 다음과 같다. 
 ```Python
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
+import pandas as pd
+import xgboost as xgb 
+import numpy as np
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from hipe4ml.analysis_utils import train_test_generator
+import matplotlib.pyplot as plt 
 
-birth = input("When is your birthday? (ex) 2021-07-19) \n")
-birth = datetime.strptime(birth, "%Y-%m-%d") #convert to date type(?) from string
-today = datetime.now() #Get a date of today automatically
-
- #Vaildity check
-if birth > today: 
-    print("Invaild date! Please check the birthday.")
-    exit()
-
-#initialization
-age_month = 0
-age_day = 0
-
-if birth.day <= today.day:
-    age_day = today.day - birth.day
-else:
-    age_day = (today.replace(day=1) - relativedelta(days=1)).day + today.day - birth.day
-    today -=relativedelta(months=1)
-
-if birth.month <= today.month:
-    age_month = today.month - birth.month
-    age_year = today.year - birth.year  
-else:
-    age_month = 12 + today.month - birth.month
-    age_year = today.year - birth.year -1
-
-print(str(age_year)+" years, "+str(age_month)+" months, "+str(age_day)+" days")
-print("Your age is " + str(age_year))
+from hipe4ml import analysis_utils, plot_utils
+from hipe4ml.model_handler import ModelHandler
+from hipe4ml.tree_handler import TreeHandler
 ```
-    
+<br>
+
+hipe4ml의 ROOT파일에서 TTree를 읽어오는 함수를 통해 signal(`prompt.root`)과 data(`data.root`) 파일을 불러온다. 
+불러진 파일들은 ROOT TTree 데이터 포멧에서 pandas 데이터 포멧으로 변환된다.
+~~~Python
+promptH = TreeHandler('data/prompt.root','treeMLDplus')
+dataH = TreeHandler('data/data.root','treeMLDplus')
+~~~
+<br>
+
+$\rm D^{+}$ 의 질량은 $1.87\,\rm GeV/\it{c}$ 이므로 $0.05\,\rm GeV/\it{c}$의 mass resolution을 고려하여 data에서 $m<0.18 \, \rm GeV/\it{c}$ 또는 $1.92 \, \rm GeV/\it{c} < m <2.0 \, \rm GeV/\it{c}$ 영역은 노이즈로 취급한다. $2\, \rm GeV/\it{c}$의 상한선은 $\rm D^{*+}(2010)$의 중간자의 질량으로 정해졌다.
+그 중, 신호 샘플 크기의 3배 사이즈만 노이즈 샘플 사이즈로 설정하고 training을 진행한다.
+~~~Python
+bkgH = dataH.get_subset('inv_mass < 1.82 or 1.92 < inv_mass < 2.00', size=promptH.get_n_cand()*3)
+~~~
+<br>
+
+총 샘플은 신호와 노이즈 샘플을 합쳐서 만들어진다. 이 때, 신호와 노이즐르 구분하기 위해 신호에는 1, 노이즈에는 0이라는 label을 지정해준다. train 샘플과 test 샘플은 총 샘플을 반으로 나눠 정의하였다. 
+~~~Python
+train_test_data = train_test_generator([promptH, bkgH], [1,0], test_size=0.5, random_state=42)
+~~~
+<br>
+
+신호와 노이즈 샘플의 변수들의 분포는 다음과 같다. 변수들 정의는 다음과 같다.
+![](fig/SigBkg.png)
+
+| Variable | Discribtion| Variable | Discribtion|                 
+|---|---|---|---|
+| inv_mass | 질량 | max_norm_d0d0exp| $\rm D^{+}$ 생성 지점과 딸입자의 최소거리 곱들의 규격화 된 최댓값
+| pt_cand | XY 평면에서의 운동량 | sig_vert| $\rm D^{+}$ 생성 지점
+| d_len | 붕괴 길이 | nsigComb_Pi_0 | 첫 번째 딸입자가 $\pi^{+}$일 sigma 값
+| d_len_xy | XY 평면에서의 붕괴 길이 |nsigComb_K_0 | 첫 번째 딸입자가 $\rm K^{-}$일 sigma 값
+| norm_dl_xy | XY 평면에서의 규격화 된 붕괴 길이 | nsigComb_Pi_1| 두 번째 딸입자가 $\pi^{+}$일 sigma 값
+| cos_p | cosine of pointing angle | nsigComb_K_1| 두 번째 딸입자가 $\rm K^{-}$일 sigma 값
+| cos_p_xy | XY 평면에서의 cosine of pointing angle | nsigComb_Pi_2| 세 번째 딸입자가 $\pi^{+}$일 sigma 값
+| imp_par_xy | XY 평면면에서 $\rm D^{+}$ 생성 지점과 딸입자의 최소거리 | nsigComb_K_2| 세 번째 딸입자가 $\rm K^{-}$일 sigma 값
+<br>
+
+신호와 노이즈 샘플의 변수들의 상관관계는 다음과 같다.
+![](fig/sig.png)
+![](fig/bkg.png)
+<br>
+
+Model이 추구하는 것은 training을 통해 데이터에서 $\rm D^{+}$ 신호의 XY 평면에서의 운동량에 대한 질량을 보고자 하는 것이다. 따라서 model training에는 `inv_mass`와 `pt_cand`이 고려되지 않도록 했다.
+
+~~~Python
+features_for_train = vars_to_draw.copy()
+features_for_train.remove('inv_mass')
+features_for_train.remove('pt_cand')
+~~~
+<br>
+
+### 2. The model
+
+본 분석에서는 classification algorithm으로 `XGBoost`를 사용했다. `XGBoost` 는 gradient boosted decision trees기반으로 되어있기에 높은 효율과 손쉬은 사용법을 제공한다. 
+
+~~~Python
+INPUT_MODEL = xgb.XGBClassifier(eval_metric='mlogloss', use_label_encoder=False)
+model_hdl = ModelHandler(INPUT_MODEL, features_for_train)
+~~~
+<br>
+
+model 구성에 필요한 변수들을 최적화하는 것은 알고리즘의 성능을 최대화 하는 데 매우 중요하다. 따라서 estimator는 200에서 1000, max_depth는 2에서 4, learning rate는 0.01에서 0.1까지 구간을 설정해 Bayesian 방식에 따라 변수의 일정 구간을 스캔하여 최적화된 값을 선택했다. 이는 `optimize_params_bayes`함수에 의해 시행된다. 
+
+
+Hyper parameter set 결정은 overfitting을 피하기 위해 여러 개의 다른 샘플에 대해 시험되어야 한다. 하지만 샘플의 크기는 한정되어 있기에 cross validation 방식을 통해 샘플 의존성을 제거하였다.
+
+cross validation의 과정은 다음과 같다. 원래 샘플은 fold이라고 하는 5개의 부분으로 나뉜다. 각 hyper parameter set에 대해 n-1 fold는 최적화에 사용되고 나머지 하나는 테스트로 사용된다. 이 작업은 최적화 및 테스트에 사용된 fold를 purmutation 한 후에 반복되며 최종 hyper parameter set은 모든 permutation의 평균값이 된다.
+
+
+~~~Python
+hyper_pars_ranges = {'n_estimators': (200, 1000), 'max_depth': (2, 4), 'learning_rate': (0.01, 0.1)}
+model_hdl.optimize_params_bayes(train_test_data, hyper_pars_ranges, 'roc_auc', nfold=5, init_points=5, n_iter=5, njobs=-1)
+~~~
+<br>
+
+### 3. Training and testing the model
+
+Model training은 아래 코드에 의해 진행된다.
+
+~~~Python
+model_hdl.train_test_model(train_test_data)
+~~~
+![](fig/model_training.png)
+<br>
+
+Training의 결과로는 BDT output이 0.9827일 경우 가장 좋은 성능을 보인다. 
+Hyper parameter set의 경우에는 estimator는 345.5, max_depth은 2.4, learning rate는 0.08 일 때, 가장 좋은 성능을 보인다.
+<br>
+
+train과 test 샘플에 대한 ROC curve는 다음과 같다. 
+train set에 대해서는 0.99, test set에 대해서는 0.98의 값을 보여준다. 
+![](fig/ROCcurve.png)
+<br>
+
+Feature importance는 다음과 같다. 신호와 노이즈를 구분하는 데 중요한 역할을 하는 변수는 붕괴 길이에 관련된 변수거나 입자 구분에 관련된 변수들이다.
+![](fig/fi2.png)
+<br>
+
+신호와 노이즈에 대한 BDT output은 다음과 같다. BDT output은 신호일 확률을 나타낸다. 1에 가까울수록 신호일 확률이 높고, 0에 가까울수록 노이즈일 확률이 높다.
+![](fig/BDTscore.png)
+<br>
+
+### 4. Apply the model to the data
+
+앞에서 얻은 model을 data에 적용하여 data에서 신호와 노이즈를 구분하였다. 앞의 결과에서 BDT output이 0.9827일 때, 신호와 노이즈를 잘 구분한다는 점을 바탕으로 model을 data에 적용하였다. 
+data에서  BDT score가 0.9827보다 크면 신호 candidate로 취급된다.
+
+~~~Python
+dataH.apply_model_handler(model_hdl, False)
+selected_data_hndl = dataH.get_subset('model_output>0.9827')
+~~~
+<br>
+
+분석의 목적인 data에서 선택한 $\rm D^{+}$ candidate의 질량 분포가 신호 샘플에서의 질량 분포와 같은 경향을 보이는 지 파악하기 위해 질량 분포를 그려보았다.
+![](fig/IM.png)
+<br>
+시그널 영역에 피크가 있는 것으로 보아 신호가 잘 선택되었음을 알 수 있다.
+
+
+------------
+
+## Summary and Discussion <br><br>
+
