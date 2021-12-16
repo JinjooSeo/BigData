@@ -88,6 +88,7 @@ train_test_data = train_test_generator([promptH, bkgH], [1,0], test_size=0.5, ra
 <br>
 
 신호와 노이즈 샘플의 변수들의 분포는 다음과 같다. 변수들 정의는 다음과 같다.
+
 ![](fig/SigBkg.png)
 
 | Variable | Describtion| Variable | Describtion|                 
@@ -103,6 +104,7 @@ train_test_data = train_test_generator([promptH, bkgH], [1,0], test_size=0.5, ra
 <br>
 
 신호와 노이즈 샘플의 변수들의 상관관계는 다음과 같다.
+
 ![](fig/sig.png)
 ![](fig/bkg.png)
 <br>
@@ -156,14 +158,17 @@ Hyper parameter set의 경우에는 estimator는 345.5, max_depth은 2.4, learni
 
 train과 test 샘플에 대한 ROC curve는 다음과 같다. 
 train set에 대해서는 0.99, test set에 대해서는 0.98의 값을 보여준다. 
+
 ![](fig/ROCcurve.png)
 <br>
 
 Feature importance는 다음과 같다. 신호와 노이즈를 구분하는 데 중요한 역할을 하는 변수는 붕괴 길이에 관련된 변수거나 입자 구분에 관련된 변수들이다.
+
 ![](fig/fi2.png)
 <br>
 
 신호와 노이즈에 대한 BDT output은 다음과 같다. BDT output은 신호일 확률을 나타낸다. 1에 가까울수록 신호일 확률이 높고, 0에 가까울수록 노이즈일 확률이 높다.
+
 ![](fig/BDTscore.png)
 <br>
 
@@ -179,10 +184,11 @@ selected_data_hndl = dataH.get_subset('model_output>0.9827')
 <br>
 
 분석의 목적인 data에서 선택한 $\rm D^{+}$ candidate의 질량 분포가 신호 샘플에서의 질량 분포와 같은 경향을 보이는 지 파악하기 위해 질량 분포를 그려보았다.
+
 ![](fig/IM.png)
 <br>
 
-앞에서 신호와 노이즈 비교 분포에서 질량에 대한 분포를 볼 때, 신호 분포는 $\rm D^{+}$의 질량이 $1.87\,\rm GeV/\it{c}$ 이므로 $0.05\,\rm GeV/\it{c}$의 mass resolution을 고려하여 $1.82 \, \rm GeV/\it{c} < m < 1.92 \, \rm GeV/\it{c}$에서 피크를 가진다. 
+앞에서 신호와 노이즈 비교 분포에서 질량에 대한 분포를 볼 때, 신호 분포는 $\rm D^{+}$의 질량이 $1.87\,\rm GeV/\it{c}$ 이므로 $0.05 \,\rm GeV/\it{c}$의 mass resolution을 고려하여 $1.82 \, \rm GeV/\it{c} < m < 1.92 \, \rm GeV/\it{c}$에서 피크를 가진다. 
 위의 그림에서 BDT model을 data에 적용했을 때인 주황색 분포는 신호 분포와 비슷하게 시그널 영역에서 피크가 있는 것으로 보아 data에서 신호를 잘 선택했음을 알 수 있다. model을 적용하지 않은 파란색 분포는 주황식의 피크 주변의 분포와 겹친다. 이것으로 보아 피크 주변의 주황색 분포는 combinatiorial background으로 구성되어 있다는 것을 알 수 있다.
 
 ------------

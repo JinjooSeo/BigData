@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js">
+    MathJax.Hub.Config({
+    extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+         displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+});
+</script> 
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="fundamentals-of-big-data-analytics">Fundamentals of Big Data Analytics</h1>
+<hr>
+<h2 id="rm-d-selection-with-boost-decision-tree-bdt">$\rm D^+$ selection with Boost Decision Tree (BDT)</h2>
+<hr>
+<h2 id="intorduction-brbr">Intorduction <br><br></h2>
+<p>138억 년 전 우주는 거대한 폭발(Big-Bang)로 시작되었다.
+현대 물리학의 중요한 숙제중의 하나는 이 Big-Bang 직후의 우주 상태를 알아내는 것이다. Big-Bang이 일어난 직후 우주의 에너지 밀도와 온도는 상상을 뛰어넘게 높았을 것이라 예측된다.
+우주의 나이가 약 100 만분의 1초 정도였을 때의 우주의 상태를 쿼크-글루온 플라즈마(quark-gluon plasma, 또는 QGP)라고 한다.</p>
+<p>우주의 초기 상태로 돌아가 쿼크-글루온 플라즈마를 관측하는 것은 불가능하지만 작은 수의 소립자로 이루어진 계라도 중이온 가속기를 이용하여 초고온의 상태를 만듦으로서 그와 유사한 상태를 만들어, 우주 초기 상태를 연구할 수 있다.
+중이온 가속기를 이용해 무거운 원자핵(중이온)들의 충돌시키면 충돌 중심지역에 생성된 계는 핵자 밀도가 거의 0이며, 초기에는 비평형 상태이나 결국 쿼크-글루온 플라즈마로 진화할 것으로 예상 된다.
+이렇게 충돌 중심지역에 형성된 쿼크-글루온 플라즈마는 급격히 팽창하는데 이 과정에서 온도와 밀도가 한계온도 혹은 한계밀도 이하로 감소하게 되면 강입자로 변환되어 검출기에서 검출 된다.
+따라서 중이온 충돌 실험으로부터 생성된 입자의 생성량을 측정하여 쿼크-글루온 플라즈마의 생성 여부를 결정하고 그 특성을 발견할 수 있다.
+특히나 섭동 양자 색소 역학(pQCD)에 의하면, 에너지와 운동량을 가진 파톤(parton)이 쿼크-글루온 플라즈마를 통과하면서 잃는 에너지는 쿼크의 색 전하(colour charge)와 질량에 따라 다르게 계산되는데, 이는 아직 실험적으로 검증되지 않았다.
+이 때문에 무거운 질량을 가지는 바닥 쿼크(b)와 매력 쿼크(c)의 쿼크-글루온 플라즈마와의 상호작용을 구분하는 일은 RHIC 실험이래로 고에너지 핵물리를 연구하는 학자들에게 중심 과제가 되어왔다.</p>
+<hr>
+<h2 id="data-sample-brbr">Data sample <br><br></h2>
+<p>매력 쿼크를 포함한 중간자인 $\rm D^{+}$는 $\rm K^{-}$ 중간자와 두 개의 $\pi^{+}$중간자로 붕괴한다. 따라서 $\rm K^{-}, \pi^{+}, \pi^{+}$을 조합하면 $\rm D^{+}$를 재구성 할 수 있다. 하지만 3-prong decay이므로 세 개의 입자를 짝지을 경우의 수를 생각한다면 combinatorial background는 무수히 많다. 따라서 Machine learning을 통해 신호를 효율적으로 골라낼 수 있는 알고리즘을 찾는 것이 중요시된다.</p>
+<p>Machine learning에 사용되는 데이터는 충돌 에너지가 7 TeV 일 때, 2억 4천만개의 양성자-양성자 충돌에서 얻은 입자들이다.
+양성자-양성자 충돌 당 대략 5개의 입자들이 발생하므로 총 12억개의 입자들의 정보를 포함하고 있다. 입자들은 전자, 뮤온, 양성자, $\rm K^{-}, \pi^{+}$등이 있다. 7 TeV 양성자-양성자 충돌 시스템에서 생성되는 $\rm D^{+}$의 수는 대략 4천 7백개이다. 12억개의 입자들에서 대략 1만 4찬여개의 입자들을 선택해 $\rm D^{+}$을 재구성해야한다.</p>
+<p>data에서는 $\rm K^{-}, \pi^{+}$가 $\rm D^{+}$에서 붕괴되었는지 알 수 없기에 Monte Calro simulation을 통해 입자들이 어디서 붕괴했는지에 대한 정보를 가지고 있는 data sample이 필요하다.</p>
+<ul>
+<li>Data : 12 Bilions particles without mother particle labeling (data.root)</li>
+<li>MC sample : 4000 particles with mother proticle labeling (prompt.root)</li>
+</ul>
+<hr>
+<h2 id="package-and-algorithm-brbr">Package and Algorithm <br><br></h2>
+<p>$\rm D^{+}$ 재구성은 $\rm K^{-}, \pi^{+}, \pi^{+}$의 입자들이 $\rm D^{+}$에서 붕괴하였는지 아닌지에 따라 결정된다. 따라서 Binary classification이 요구된다.</p>
+<p>본 분석에서 사용한 package는 <a href="https://github.com/hipe4ml/hipe4ml.git">hipe4ml</a>로 고에너지 핵물리학에서 쓰이는 Machine learnign package이다. 여기서 쓰이는 알고리즘은 Boost Decision Tree로 <a href="https://xgboost.readthedocs.io/en/stable/">XGBoost</a>를 이용한다.</p>
+<hr>
+<h2 id="analysis-brbr">Analysis <br><br></h2>
+<h3 id="1-preslection-and-prepare-the-model-training">1. Preslection and prepare the model training</h3>
+<p>분석에서 사용한 코드는 다음 링크에서 확인할 수 있다. <a href="https://github.com/JinjooSeo/BigData/blob/main/treeAnalysis.py">LINK</a></p>
+<p>분석에서 쓰이는 package들은 다음과 같다.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> xgboost <span class="hljs-keyword">as</span> xgb 
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">from</span> sklearn <span class="hljs-keyword">import</span> datasets
+<span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split
+<span class="hljs-keyword">from</span> hipe4ml.analysis_utils <span class="hljs-keyword">import</span> train_test_generator
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt 
+
+<span class="hljs-keyword">from</span> hipe4ml <span class="hljs-keyword">import</span> analysis_utils, plot_utils
+<span class="hljs-keyword">from</span> hipe4ml.model_handler <span class="hljs-keyword">import</span> ModelHandler
+<span class="hljs-keyword">from</span> hipe4ml.tree_handler <span class="hljs-keyword">import</span> TreeHandler
+</div></code></pre>
+<br>
+<p>hipe4ml의 ROOT파일에서 TTree를 읽어오는 함수를 통해 signal(<code>prompt.root</code>)과 data(<code>data.root</code>) 파일을 불러온다.
+불러진 파일들은 ROOT TTree 데이터 포멧에서 pandas 데이터 포멧으로 변환된다.</p>
+<pre class="hljs"><code><div>promptH = TreeHandler(<span class="hljs-string">'data/prompt.root'</span>,<span class="hljs-string">'treeMLDplus'</span>)
+dataH = TreeHandler(<span class="hljs-string">'data/data.root'</span>,<span class="hljs-string">'treeMLDplus'</span>)
+</div></code></pre>
+<br>
+<p>$\rm D^{+}$ 의 질량은 $1.87,\rm GeV/\it{c}$ 이므로 $0.05,\rm GeV/\it{c}$의 mass resolution을 고려하여 data에서 $m&lt;1.18 , \rm GeV/\it{c}$ 또는 $1.92 , \rm GeV/\it{c} &lt; m &lt;2.0 , \rm GeV/\it{c}$ 영역은 노이즈로 취급한다. $2, \rm GeV/\it{c}$의 상한선은 $\rm D^{*+}(2010)$의 중간자의 질량으로 정해졌다.
+그 중, 신호 샘플 크기의 3배 사이즈만 노이즈 샘플 사이즈로 설정하고 training을 진행한다.</p>
+<pre class="hljs"><code><div>bkgH = dataH.get_subset(<span class="hljs-string">'inv_mass &lt; 1.82 or 1.92 &lt; inv_mass &lt; 2.00'</span>, size=promptH.get_n_cand()*<span class="hljs-number">3</span>)
+</div></code></pre>
+<br>
+<p>총 샘플은 신호와 노이즈 샘플을 합쳐서 만들어진다. 이 때, 신호와 노이즐르 구분하기 위해 신호에는 1, 노이즈에는 0이라는 label을 지정해준다. train 샘플과 test 샘플은 총 샘플을 반으로 나눠 정의하였다.</p>
+<pre class="hljs"><code><div>train_test_data = train_test_generator([promptH, bkgH], [<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], test_size=<span class="hljs-number">0.5</span>, random_state=<span class="hljs-number">42</span>)
+</div></code></pre>
+<br>
+<p>신호와 노이즈 샘플의 변수들의 분포는 다음과 같다. 변수들 정의는 다음과 같다.</p>
+<p><img src="fig/SigBkg.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Describtion</th>
+<th>Variable</th>
+<th>Describtion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>inv_mass</td>
+<td>질량</td>
+<td>max_norm_d0d0exp</td>
+<td>$\rm D^{+}$ 생성 지점과 딸입자의 최소거리 곱들의 규격화 된 최댓값</td>
+</tr>
+<tr>
+<td>pt_cand</td>
+<td>XY 평면에서의 운동량</td>
+<td>sig_vert</td>
+<td>$\rm D^{+}$ 생성 지점</td>
+</tr>
+<tr>
+<td>d_len</td>
+<td>붕괴 길이</td>
+<td>nsigComb_Pi_0</td>
+<td>첫 번째 딸입자가 $\pi^{+}$일 sigma 값</td>
+</tr>
+<tr>
+<td>d_len_xy</td>
+<td>XY 평면에서의 붕괴 길이</td>
+<td>nsigComb_K_0</td>
+<td>첫 번째 딸입자가 $\rm K^{-}$일 sigma 값</td>
+</tr>
+<tr>
+<td>norm_dl_xy</td>
+<td>XY 평면에서의 규격화 된 붕괴 길이</td>
+<td>nsigComb_Pi_1</td>
+<td>두 번째 딸입자가 $\pi^{+}$일 sigma 값</td>
+</tr>
+<tr>
+<td>cos_p</td>
+<td>cosine of pointing angle</td>
+<td>nsigComb_K_1</td>
+<td>두 번째 딸입자가 $\rm K^{-}$일 sigma 값</td>
+</tr>
+<tr>
+<td>cos_p_xy</td>
+<td>XY 평면에서의 cosine of pointing angle</td>
+<td>nsigComb_Pi_2</td>
+<td>세 번째 딸입자가 $\pi^{+}$일 sigma 값</td>
+</tr>
+<tr>
+<td>imp_par_xy</td>
+<td>XY 평면면에서 $\rm D^{+}$ 생성 지점과 딸입자의 최소거리</td>
+<td>nsigComb_K_2</td>
+<td>세 번째 딸입자가 $\rm K^{-}$일 sigma 값</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p>신호와 노이즈 샘플의 변수들의 상관관계는 다음과 같다.</p>
+<p><img src="fig/sig.png" alt="">
+<img src="fig/bkg.png" alt="">
+<br></p>
+<p>Model이 추구하는 것은 training을 통해 데이터에서 $\rm D^{+}$ 신호의 XY 평면에서의 운동량에 대한 질량을 보고자 하는 것이다. 따라서 model training에는 <code>inv_mass</code>와 <code>pt_cand</code>이 고려되지 않도록 했다.</p>
+<pre class="hljs"><code><div>features_for_train = vars_to_draw.copy()
+features_for_train.remove(<span class="hljs-string">'inv_mass'</span>)
+features_for_train.remove(<span class="hljs-string">'pt_cand'</span>)
+</div></code></pre>
+<br>
+<h3 id="2-the-model">2. The model</h3>
+<p>본 분석에서는 classification algorithm으로 <code>XGBoost</code>를 사용했다. <code>XGBoost</code> 는 gradient boosted decision trees기반으로 되어있기에 높은 효율과 손쉬은 사용법을 제공한다.</p>
+<pre class="hljs"><code><div>INPUT_MODEL = xgb.XGBClassifier(eval_metric=<span class="hljs-string">'mlogloss'</span>, use_label_encoder=<span class="hljs-literal">False</span>)
+model_hdl = ModelHandler(INPUT_MODEL, features_for_train)
+</div></code></pre>
+<br>
+<p>model 구성에 필요한 변수들을 최적화하는 것은 알고리즘의 성능을 최대화 하는 데 매우 중요하다. 따라서 estimator는 200에서 1000, max_depth는 2에서 4, learning rate는 0.01에서 0.1까지 구간을 설정해 Bayesian 방식에 따라 변수의 일정 구간을 스캔하여 최적화된 값을 선택했다. 이는 <code>optimize_params_bayes</code>함수에 의해 시행되고 loss reqularization과정으로 취급된다.</p>
+<p>Hyper parameter set 결정은 overfitting을 피하기 위해 여러 개의 다른 샘플에 대해 시험되어야 한다. 하지만 샘플의 크기는 한정되어 있기에 cross validation 방식을 통해 샘플 의존성을 제거하였다.</p>
+<p>cross validation의 과정은 다음과 같다. 원래 샘플은 fold이라고 하는 5개의 부분으로 나뉜다. 각 hyper parameter set에 대해 n-1 fold는 최적화에 사용되고 나머지 하나는 테스트로 사용된다. 이 작업은 최적화 및 테스트에 사용된 fold를 purmutation 한 후에 반복되며 최종 hyper parameter set은 모든 permutation의 평균값이 된다.</p>
+<pre class="hljs"><code><div>hyper_pars_ranges = {<span class="hljs-string">'n_estimators'</span>: (<span class="hljs-number">200</span>, <span class="hljs-number">1000</span>), <span class="hljs-string">'max_depth'</span>: (<span class="hljs-number">2</span>, <span class="hljs-number">4</span>), <span class="hljs-string">'learning_rate'</span>: (<span class="hljs-number">0.01</span>, <span class="hljs-number">0.1</span>)}
+model_hdl.optimize_params_bayes(train_test_data, hyper_pars_ranges, <span class="hljs-string">'roc_auc'</span>, nfold=<span class="hljs-number">5</span>, init_points=<span class="hljs-number">5</span>, n_iter=<span class="hljs-number">5</span>, njobs=<span class="hljs-number">-1</span>)
+</div></code></pre>
+<br>
+<h3 id="3-training-and-testing-the-model">3. Training and testing the model</h3>
+<p>Model training은 아래 코드에 의해 진행된다.</p>
+<pre class="hljs"><code><div>model_hdl.train_test_model(train_test_data)
+</div></code></pre>
+<p><img src="fig/model_training.png" alt="">
+<br></p>
+<p>Training의 결과로는 BDT output이 0.9827일 경우 가장 좋은 성능을 보인다.
+Hyper parameter set의 경우에는 estimator는 345.5, max_depth은 2.4, learning rate는 0.08 일 때, 가장 좋은 성능을 보인다.
+<br></p>
+<p>train과 test 샘플에 대한 ROC curve는 다음과 같다.
+train set에 대해서는 0.99, test set에 대해서는 0.98의 값을 보여준다.</p>
+<p><img src="fig/ROCcurve.png" alt="">
+<br></p>
+<p>Feature importance는 다음과 같다. 신호와 노이즈를 구분하는 데 중요한 역할을 하는 변수는 붕괴 길이에 관련된 변수거나 입자 구분에 관련된 변수들이다.</p>
+<p><img src="fig/fi2.png" alt="">
+<br></p>
+<p>신호와 노이즈에 대한 BDT output은 다음과 같다. BDT output은 신호일 확률을 나타낸다. 1에 가까울수록 신호일 확률이 높고, 0에 가까울수록 노이즈일 확률이 높다.</p>
+<p><img src="fig/BDTscore.png" alt="">
+<br></p>
+<h3 id="4-apply-the-model-to-the-data">4. Apply the model to the data</h3>
+<p>앞에서 얻은 model을 data에 적용하여 data에서 신호와 노이즈를 구분하였다. 앞의 결과에서 BDT output이 0.9827일 때, 신호와 노이즈를 잘 구분한다는 점을 바탕으로 model을 data에 적용하였다.
+data에서  BDT score가 0.9827보다 크면 신호 candidate로 취급된다.</p>
+<pre class="hljs"><code><div>dataH.apply_model_handler(model_hdl, <span class="hljs-literal">False</span>)
+selected_data_hndl = dataH.get_subset(<span class="hljs-string">'model_output&gt;0.9827'</span>)
+</div></code></pre>
+<br>
+<p>분석의 목적인 data에서 선택한 $\rm D^{+}$ candidate의 질량 분포가 신호 샘플에서의 질량 분포와 같은 경향을 보이는 지 파악하기 위해 질량 분포를 그려보았다.</p>
+<p><img src="fig/IM.png" alt="">
+<br></p>
+<p>앞에서 신호와 노이즈 비교 분포에서 질량에 대한 분포를 볼 때, 신호 분포는 $\rm D^{+}$의 질량이 $1.87,\rm GeV/\it{c}$ 이므로 $0.05 ,\rm GeV/\it{c}$의 mass resolution을 고려하여 $1.82 , \rm GeV/\it{c} &lt; m &lt; 1.92 , \rm GeV/\it{c}$에서 피크를 가진다.
+위의 그림에서 BDT model을 data에 적용했을 때인 주황색 분포는 신호 분포와 비슷하게 시그널 영역에서 피크가 있는 것으로 보아 data에서 신호를 잘 선택했음을 알 수 있다. model을 적용하지 않은 파란색 분포는 주황식의 피크 주변의 분포와 겹친다. 이것으로 보아 피크 주변의 주황색 분포는 combinatiorial background으로 구성되어 있다는 것을 알 수 있다.</p>
+<hr>
+<h2 id="summary-brbr">Summary <br><br></h2>
+<p>우주 초기 상태의 특성을 알 수 있는데 중요한 역할을 하는 매력 쿼크를 포함한 중간자인 $\rm D^{+}$ 신호 추출을 XGBoost를 이용하여 진행했다.
+XGBoost는 graident boost ensemble 알고리즘에 경사하강(Gradient Descent)알고리즘을 적용한 것으로 진차를 설명변수로 부터 설명하는 weak model을 만들어 잔차의 크기를 줄여가는 과정을 반복한다. 멀티 스레드를 멀티코어 CPU에 배분하여 병렬처리를 지원하기때문에 빠른 속도를 보인다.
+Model training의 결과로 BDT output이 0.9827일 경우 가장 좋은 성능을 보인다.
+Hyper parameter set의 경우에는 estimator는 345.5, max_depth은 2.4, learning rate는 0.08 일 때, 가장 좋은 성능을 보인다.
+그리고 신호와 노이즈를 구분하는 데 중요한 역할을 하는 변수는 붕괴 길이에 관련된 변수거나 입자 구분에 관련된 변수들이라는 것이 model training을 통해 알게 되었다.
+결론적으로, XGBoost는 억 단위의 노이즈 입자들 사이에서 signal candidate를 효과적으로 추출하는 데 좋은 성능을 보였다.</p>
+
+</body>
+</html>
