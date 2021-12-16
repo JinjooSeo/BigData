@@ -48,6 +48,8 @@ $\rm D^{+}$ 재구성은 $\rm K^{-}, \pi^{+}, \pi^{+}$의 입자들이 $\rm D^{+
 
 ### 1. Preslection and prepare the model training
 
+분석에서 사용한 코드는 다음 링크에서 확인할 수 있다. [LINK](https://github.com/JinjooSeo/BigData/blob/main/treeAnalysis.py)
+
 분석에서 쓰이는 package들은 다음과 같다. 
 ```Python
 import pandas as pd
@@ -72,7 +74,7 @@ dataH = TreeHandler('data/data.root','treeMLDplus')
 ~~~
 <br>
 
-$\rm D^{+}$ 의 질량은 $1.87\,\rm GeV/\it{c}$ 이므로 $0.05\,\rm GeV/\it{c}$의 mass resolution을 고려하여 data에서 $m<0.18 \, \rm GeV/\it{c}$ 또는 $1.92 \, \rm GeV/\it{c} < m <2.0 \, \rm GeV/\it{c}$ 영역은 노이즈로 취급한다. $2\, \rm GeV/\it{c}$의 상한선은 $\rm D^{*+}(2010)$의 중간자의 질량으로 정해졌다.
+$\rm D^{+}$ 의 질량은 $1.87\,\rm GeV/\it{c}$ 이므로 $0.05\,\rm GeV/\it{c}$의 mass resolution을 고려하여 data에서 $m<1.18 \, \rm GeV/\it{c}$ 또는 $1.92 \, \rm GeV/\it{c} < m <2.0 \, \rm GeV/\it{c}$ 영역은 노이즈로 취급한다. $2\, \rm GeV/\it{c}$의 상한선은 $\rm D^{*+}(2010)$의 중간자의 질량으로 정해졌다.
 그 중, 신호 샘플 크기의 3배 사이즈만 노이즈 샘플 사이즈로 설정하고 training을 진행한다.
 ~~~Python
 bkgH = dataH.get_subset('inv_mass < 1.82 or 1.92 < inv_mass < 2.00', size=promptH.get_n_cand()*3)
@@ -88,7 +90,7 @@ train_test_data = train_test_generator([promptH, bkgH], [1,0], test_size=0.5, ra
 신호와 노이즈 샘플의 변수들의 분포는 다음과 같다. 변수들 정의는 다음과 같다.
 ![](fig/SigBkg.png)
 
-| Variable | Discribtion| Variable | Discribtion|                 
+| Variable | Describtion| Variable | Describtion|                 
 |---|---|---|---|
 | inv_mass | 질량 | max_norm_d0d0exp| $\rm D^{+}$ 생성 지점과 딸입자의 최소거리 곱들의 규격화 된 최댓값
 | pt_cand | XY 평면에서의 운동량 | sig_vert| $\rm D^{+}$ 생성 지점
@@ -124,7 +126,7 @@ model_hdl = ModelHandler(INPUT_MODEL, features_for_train)
 ~~~
 <br>
 
-model 구성에 필요한 변수들을 최적화하는 것은 알고리즘의 성능을 최대화 하는 데 매우 중요하다. 따라서 estimator는 200에서 1000, max_depth는 2에서 4, learning rate는 0.01에서 0.1까지 구간을 설정해 Bayesian 방식에 따라 변수의 일정 구간을 스캔하여 최적화된 값을 선택했다. 이는 `optimize_params_bayes`함수에 의해 시행된다. 
+model 구성에 필요한 변수들을 최적화하는 것은 알고리즘의 성능을 최대화 하는 데 매우 중요하다. 따라서 estimator는 200에서 1000, max_depth는 2에서 4, learning rate는 0.01에서 0.1까지 구간을 설정해 Bayesian 방식에 따라 변수의 일정 구간을 스캔하여 최적화된 값을 선택했다. 이는 `optimize_params_bayes`함수에 의해 시행되고 loss reqularization과정으로 취급된다.
 
 
 Hyper parameter set 결정은 overfitting을 피하기 위해 여러 개의 다른 샘플에 대해 시험되어야 한다. 하지만 샘플의 크기는 한정되어 있기에 cross validation 방식을 통해 샘플 의존성을 제거하였다.
@@ -179,10 +181,17 @@ selected_data_hndl = dataH.get_subset('model_output>0.9827')
 분석의 목적인 data에서 선택한 $\rm D^{+}$ candidate의 질량 분포가 신호 샘플에서의 질량 분포와 같은 경향을 보이는 지 파악하기 위해 질량 분포를 그려보았다.
 ![](fig/IM.png)
 <br>
-시그널 영역에 피크가 있는 것으로 보아 신호가 잘 선택되었음을 알 수 있다.
 
+앞에서 신호와 노이즈 비교 분포에서 질량에 대한 분포를 볼 때, 신호 분포는 $\rm D^{+}$의 질량이 $1.87\,\rm GeV/\it{c}$ 이므로 $0.05\,\rm GeV/\it{c}$의 mass resolution을 고려하여 $1.82 \, \rm GeV/\it{c} < m < 1.92 \, \rm GeV/\it{c}$에서 피크를 가진다. 
+위의 그림에서 BDT model을 data에 적용했을 때인 주황색 분포는 신호 분포와 비슷하게 시그널 영역에서 피크가 있는 것으로 보아 data에서 신호를 잘 선택했음을 알 수 있다. model을 적용하지 않은 파란색 분포는 주황식의 피크 주변의 분포와 겹친다. 이것으로 보아 피크 주변의 주황색 분포는 combinatiorial background으로 구성되어 있다는 것을 알 수 있다.
 
 ------------
 
-## Summary and Discussion <br><br>
+## Summary <br><br>
 
+우주 초기 상태의 특성을 알 수 있는데 중요한 역할을 하는 매력 쿼크를 포함한 중간자인 $\rm D^{+}$ 신호 추출을 XGBoost를 이용하여 진행했다. 
+XGBoost는 graident boost ensemble 알고리즘에 경사하강(Gradient Descent)알고리즘을 적용한 것으로 진차를 설명변수로 부터 설명하는 weak model을 만들어 잔차의 크기를 줄여가는 과정을 반복한다. 멀티 스레드를 멀티코어 CPU에 배분하여 병렬처리를 지원하기때문에 빠른 속도를 보인다. 
+Model training의 결과로 BDT output이 0.9827일 경우 가장 좋은 성능을 보인다. 
+Hyper parameter set의 경우에는 estimator는 345.5, max_depth은 2.4, learning rate는 0.08 일 때, 가장 좋은 성능을 보인다.
+그리고 신호와 노이즈를 구분하는 데 중요한 역할을 하는 변수는 붕괴 길이에 관련된 변수거나 입자 구분에 관련된 변수들이라는 것이 model training을 통해 알게 되었다. 
+결론적으로, XGBoost는 억 단위의 노이즈 입자들 사이에서 signal candidate를 효과적으로 추출하는 데 좋은 성능을 보였다. 
