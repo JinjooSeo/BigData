@@ -93,14 +93,14 @@ train_test_data = train_test_generator([promptH, bkgH], [1,0], test_size=0.5, ra
 
 | Variable | Describtion| Variable | Describtion|                 
 |---|---|---|---|
-| inv_mass | 질량 | max_norm_d0d0exp| $\rm D^{+}$ 생성 지점과 딸입자의 최소거리 곱들의 규격화 된 최댓값
-| pt_cand | XY 평면에서의 운동량 | sig_vert| $\rm D^{+}$ 생성 지점
-| d_len | 붕괴 길이 | nsigComb_Pi_0 | 첫 번째 딸입자가 $\pi^{+}$일 sigma 값
-| d_len_xy | XY 평면에서의 붕괴 길이 |nsigComb_K_0 | 첫 번째 딸입자가 $\rm K^{-}$일 sigma 값
-| norm_dl_xy | XY 평면에서의 규격화 된 붕괴 길이 | nsigComb_Pi_1| 두 번째 딸입자가 $\pi^{+}$일 sigma 값
-| cos_p | cosine of pointing angle | nsigComb_K_1| 두 번째 딸입자가 $\rm K^{-}$일 sigma 값
-| cos_p_xy | XY 평면에서의 cosine of pointing angle | nsigComb_Pi_2| 세 번째 딸입자가 $\pi^{+}$일 sigma 값
-| imp_par_xy | XY 평면면에서 $\rm D^{+}$ 생성 지점과 딸입자의 최소거리 | nsigComb_K_2| 세 번째 딸입자가 $\rm K^{-}$일 sigma 값
+| inv_mass | invariant mass | max_norm_d0d0exp| $\rm D^{+}$ 생성 지점과 딸입자의 최소거리 곱들의 규격화 된 최댓값
+| pt_cand | transverse momentum | sig_vert| $\sigma_{vertex}$
+| d_len | decay length | nsigComb_Pi_0 | $n\sigma_{TPC}^{\pi}$
+| d_len_xy | decay length in XY plane |nsigComb_K_0 | $n\sigma_{TPC}^{K}$
+| norm_dl_xy | normalized decay length in XY plane | nsigComb_Pi_1| $n\sigma_{TOF}^{\pi}$
+| cos_p | cosine of pointing angle | nsigComb_K_1| $n\sigma_{TOF}^{K}$
+| cos_p_xy | cosine of pointing angle in XY plane | nsigComb_Pi_2| $\frac{1}{\sqrt{2}}\sqrt{(n\sigma_{TPC}^{\pi})^{2}+(n\sigma_{TOF}^{\pi})^{2}}$
+| imp_par_xy | impact parameter in XY plane | nsigComb_K_2| $\frac{1}{\sqrt{2}}\sqrt{(n\sigma_{TPC}^{K})^{2}+(n\sigma_{TOF}^{K})^{2}}$
 <br>
 
 신호와 노이즈 샘플의 변수들의 상관관계는 다음과 같다.
