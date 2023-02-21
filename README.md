@@ -93,7 +93,7 @@ train_test_data = train_test_generator([promptH, bkgH], [1,0], test_size=0.5, ra
 
 | Variable | Describtion| Variable | Describtion|                 
 |---|---|---|---|
-| inv_mass | invariant mass | max_norm_d0d0exp| max$|d_{0} −d_{0}^{exp}|^prong(n\sigma)$
+| inv_mass | invariant mass | max_norm_d0d0exp| max$\vert d_{0} −d_{0}^{exp}\vert^prong(n\sigma)$
 | pt_cand | transverse momentum | sig_vert| $\sigma_{vertex}$
 | d_len | decay length | nsigComb_Pi_0 | $n\sigma_{TPC}^{\pi}$
 | d_len_xy | decay length in XY plane |nsigComb_K_0 | $n\sigma_{TPC}^{K}$
