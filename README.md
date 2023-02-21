@@ -91,7 +91,7 @@ train_test_data = train_test_generator([promptH, bkgH], [1,0], test_size=0.5, ra
 
 ![](fig/SigBkg.png)
 
-| Variable | Describtion| Variable | Describtion|                 
+| Variable | Description| Variable | Description|                 
 |---|---|---|---|
 | inv_mass | invariant mass | max_norm_d0d0exp| 
 | pt_cand | transverse momentum | sig_vert| $\sigma_{vertex}$
